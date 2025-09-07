@@ -7,8 +7,6 @@ After running the setup file to install the application, you can launch it from 
 
     Gain Sliders: Control the volume for all input and output faders.
 
-    Control Knobs: Adjust the Compressor and Gate levels for each input strip.
-
     Routing Matrix: Assign any input strip to any physical or virtual output bus.
 
     Automatic Restart: The application will automatically restart the VoiceMeeter engine when a new audio device is connected or disconnected.
