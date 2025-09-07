@@ -1,0 +1,39 @@
+{
+  "name": "electron-voicemeeter-addon",
+  "version": "1.0.0",
+  "description": "An Electron app to control VoiceMeeter using a native C++ addon.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "node-gyp rebuild",
+    "dist": "npm run build && electron-builder"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "electron-log": "^5.0.1",
+    "node-addon-api": "^7.0.0",
+    "node-gyp": "^10.0.1"
+  },
+  "build": {
+    "appId": "com.electron.voicemeetercontrol",
+    "productName": "VoiceMeeter Control",
+    "files": [
+      "**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build/Release/voicemeeter_addon.node",
+        "to": "voicemeeter_addon.node"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
+
