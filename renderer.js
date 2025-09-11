@@ -1,15 +1,13 @@
-const NUM_STRIPS = 8; // 5 physical, 3 virtual for Potato
-const NUM_BUSSES = 8; // 5 physical, 3 virtual for Potato
+const NUM_STRIPS = 8;
+const NUM_BUSSES = 8;
 
 const statusDiv = document.getElementById('connection-status');
 const stripsContainer = document.getElementById('input-strips');
 const bussesContainer = document.getElementById('output-busses');
 
-// --- State Tracking ---
-let activeFader = null; // Holds the param name of the fader being actively dragged
+let activeFader = null; 
 let isUpdating = false;
 
-// --- Utility Function ---
 function throttle(func, limit) {
     let inThrottle;
     return function() {
@@ -24,7 +22,6 @@ function throttle(func, limit) {
 }
 
 
-// --- UI Generation ---
 function createStrip(index) {
     const isPhysical = index < 5;
     let routingButtons = '';
@@ -79,13 +76,11 @@ function buildUI() {
     }
 }
 
-// --- State Management & Updates ---
 async function updateAllParameters() {
     if (isUpdating) return;
     isUpdating = true;
 
     const promises = [];
-    // Strips
     for (let i = 0; i < NUM_STRIPS; i++) {
         promises.push(window.api.getParamFloat(`Strip[${i}].Gain`).then(val => updateFader(`Strip[${i}].Gain`, val)));
         promises.push(window.api.getParamFloat(`Strip[${i}].Mute`).then(val => updateButton(`Strip[${i}].Mute`, val)));
@@ -94,7 +89,6 @@ async function updateAllParameters() {
         for(let j = 1; j <= 5; j++) promises.push(window.api.getParamFloat(`Strip[${i}].A${j}`).then(val => updateButton(`Strip[${i}].A${j}`, val)));
         for(let j = 1; j <= 3; j++) promises.push(window.api.getParamFloat(`Strip[${i}].B${j}`).then(val => updateButton(`Strip[${i}].B${j}`, val)));
     }
-    // Busses
     for (let i = 0; i < NUM_BUSSES; i++) {
         promises.push(window.api.getParamFloat(`Bus[${i}].Gain`).then(val => updateFader(`Bus[${i}].Gain`, val)));
         promises.push(window.api.getParamFloat(`Bus[${i}].Mute`).then(val => updateButton(`Bus[${i}].Mute`, val)));
@@ -138,7 +132,6 @@ function updateLabel(elementId, value, defaultValue) {
     }
 }
 
-// --- Event Listeners & Initialization ---
 document.addEventListener('DOMContentLoaded', async () => {
     buildUI();
 
@@ -159,14 +152,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         statusDiv.textContent = `Connection Failed: ${errorMsg}`;
     }
 
-    // Listen for mouse down on a fader to set it as active
     document.body.addEventListener('mousedown', (e) => {
         if (e.target.classList.contains('fader')) {
             activeFader = e.target.dataset.param;
         }
     });
 
-    // Listen for mouse up anywhere to release the active fader
     window.addEventListener('mouseup', () => {
         activeFader = null;
     });
@@ -175,9 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.classList.contains('fader')) {
             const param = e.target.dataset.param;
             const value = parseFloat(e.target.value);
-            // We still send the update to VoiceMeeter in real-time
             window.api.setParam(param, value);
-            // And update our own label locally for immediate feedback
             const labelId = param.startsWith('Strip') ? `strip-gain-label-${param.match(/\d+/)[0]}` : `bus-gain-label-${param.match(/\d+/)[0]}`;
             const label = document.getElementById(labelId);
             if (label) {

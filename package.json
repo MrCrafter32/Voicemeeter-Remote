@@ -1,5 +1,5 @@
 {
-  "name": "electron-voicemeeter-addon",
+  "name": "electron-voicemeeter-ui",
   "version": "1.0.0",
   "description": "An Electron app to control VoiceMeeter using a native C++ addon.",
   "main": "main.js",
@@ -20,8 +20,8 @@
     "node-gyp": "^10.0.1"
   },
   "build": {
-    "appId": "com.electron.voicemeetercontrol",
-    "productName": "VoiceMeeter Control",
+    "appId": "com.mrcrafter.voicemeeterui",
+    "productName": "VoiceMeeter UI",
     "files": [
       "**/*"
     ],
