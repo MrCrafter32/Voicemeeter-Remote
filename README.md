@@ -1,4 +1,4 @@
-VoiceMeeter Remote Control
+**VoiceMeeter UI**
 
 A modern, minimalist, and high-performance remote control application for VoiceMeeter, built with Electron and a native C++ addon. This application provides a clean, scalable user interface to manage your VoiceMeeter instance in real-time.
 User Guide
